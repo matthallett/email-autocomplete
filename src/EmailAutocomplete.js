@@ -1,72 +1,82 @@
 'use strict'
 
-function EmailAutocomplete (elem, options) {
-  this.$field = $(elem)
-  this.options = options
+export default class EmailAutocomplete {
+  constructor(elem, options) {
+    this.$field = elem
+    this.options = options
 
-  // this will be calculated upon keyup
-  this.fieldLeftOffset = null
+    // this will be calculated upon keyup
+    this.fieldLeftOffset = null
 
-  // wrap our field
-  const $wrap = document.createElement('div')
-  $wrap.className = 'eac-input-wrap'
+    // wrap our field
+    const $wrap = document.createElement('div')
+    $wrap.className = 'eac-input-wrap'
 
-  const $wrapStyle = getComputedStyle(elem)
-  $wrap.style.position = $wrapStyle.position === 'static' ? 'relative' : $wrapStyle.position
-  $wrap.style.fontSize = $wrapStyle.fontSize
+    const fieldStyle = getComputedStyle(this.$field)
+    $wrap.style.position = fieldStyle.position === 'static' ? 'relative' : fieldStyle.position
+    $wrap.style.fontSize = fieldStyle.fontSize
 
-  elem.parentNode.insertBefore($wrap, elem)
-  $wrap.appendChild(elem)
+    this.$field.parentNode.insertBefore($wrap, this.$field)
+    $wrap.appendChild(this.$field)
 
-  // create container to test width of current val
-  const $cval = document.createElement('span')
-  $cval.className = 'eac-cval'
-  const $wrapStyle = getComputedStyle(elem)
+    // create container to test width of current val
+    this.$cval = document.createElement('span')
+    this.$cval.className = 'eac-cval'
 
-  const $cvalStyles = `
-    visibility: hidden;
-    position: absolute;
-    display: inline-block
-    fontFamily: ${$cvalStyle.fontFamily}
-    fontWeight: ${$cvalStyle.fontWeight}`
+    const cvalStyles = `
+      visibility: hidden;
+      position: absolute;
+      display: inline-block;
+      font-family: ${fieldStyle.fontFamily};
+      font-weight: ${fieldStyle.fontWeight};
+      letter-spacing: ${fieldStyle.letterSpacing};
+    `
 
-  $cval.style = styles
+    this.$cval.style = cvalStyles
 
-  $cval.insertAfter(elem)
+    $wrap.appendChild(this.$cval)
 
-  // create the suggestion overlay
-  /* touchstart jquery 1.7+ */
-  const heightPad = (this.$field.outerHeight(true) - this.$field.height()) / 2 // padding+border
-  this.$suggOverlay = $('<span class="' + this.options.suggClass + '" />').css({
-    display: 'block',
-    'box-sizing': 'content-box', // standardize
-    lineHeight: this.$field.css('lineHeight'),
-    paddingTop: heightPad + 'px',
-    paddingBottom: heightPad + 'px',
-    fontFamily: this.$field.css('fontFamily'),
-    fontWeight: this.$field.css('fontWeight'),
-    letterSpacing: this.$field.css('letterSpacing'),
-    position: 'absolute',
-    top: 0,
-    left: 0
-  }).insertAfter(this.$field)
+    // create the suggestion overlay
+    /* touchstart jquery 1.7+ */
+    const heightPad = parseInt(getComputedStyle(this.$field).borderWidth) + parseInt(getComputedStyle(this.$field).padding)
 
-  // bind events and handlers
-  this.$field.on('keyup.eac', $.proxy(this.displaySuggestion, this))
+    this.$suggOverlay = document.createElement('span')
+    this.$suggOverlay.className = this.options.suggClass
 
-  this.$field.on('blur.eac', $.proxy(this.autocomplete, this))
+    const suggOverlayStyles = `
+      display: block;
+      box-sizing: content-box;
+      lineHeight: ${fieldStyle.lineHeight},
+      paddingTop: ${heightPad} + 'px',
+      paddingBottom: ${heightPad} + 'px',
+      fontFamily: ${fieldStyle.fontFamily},
+      fontWeight: ${fieldStyle.fontWeight},
+      letterSpacing: ${fieldStyle.letterSpacing},
+      position: 'absolute',
+      top: 0,
+      left: 0
+    `
+    this.$suggOverlay.style = suggOverlayStyles
+    $wrap.appendChild(this.$suggOverlay)
 
-  this.$field.on('keydown.eac', $.proxy(function (e) {
-    if (e.which === 39 || e.which === 9) {
-      this.autocomplete()
+    // bind events and handlers
+    this.$field.addEventListener('keyup', this.displaySuggestion)
+
+    this.$field.addEventListener('blur', this.autocomplete)
+
+    const checkKey = function (e) {
+      if (e.key === 39 || e.key === 9) {
+        this.autocomplete()
+      }
     }
-  }, this))
+    this.$field.addEventListener('keydown.eac', checkKey)
 
-  this.$suggOverlay.on('mousedown.eac touchstart.eac', $.proxy(this.autocomplete, this))
-}
+    // trouver une solution pour touchstart
+    this.$suggOverlay.addEventListener('mousedown.eac touchstart.eac', this.autocomplete)
+  }
 
-EmailAutocomplete.prototype = {
-  suggest: function (str) {
+
+  suggest =  (str) => {
     const strArr = str.split('@')
     if (strArr.length > 1) {
       str = strArr.pop()
@@ -82,48 +92,56 @@ EmailAutocomplete.prototype = {
     }).shift() || ''
 
     return match.replace(str, '')
-  },
+  }
 
-  autocomplete: function () {
+  autocomplete = () => {
+    console.log("yaaaaaaaaah")
     if (typeof this.suggestion === 'undefined' || this.suggestion.length < 1) {
       return false
     }
     this.$field.val(this.val + this.suggestion)
     this.$field.trigger('change')
-    this.$suggOverlay.text('')
-    this.$cval.text('')
-  },
+    this.$suggOverlay.innerHTML = ''
+    this.$cval.innerText
+  }
 
   /**
    * Displays the suggestion, handler for field keyup event
    */
-  displaySuggestion: function (e) {
-    this.val = this.$field.val()
+  displaySuggestion = e => {
+    console.log('display suggestion')
+    this.val = this.$field.value
     this.suggestion = this.suggest(this.val)
 
     if (!this.suggestion.length) {
-      this.$suggOverlay.text('')
+      this.$suggOverlay.innerHTML = ''
     } else {
       e.preventDefault()
     }
 
     // update with new suggestion
-    this.$suggOverlay.text(this.suggestion)
-    this.$cval.text(this.val)
+    this.$suggOverlay.innerHTML = this.suggestion
+    this.$cval.innerHTML = this.val
 
     //  get input padding, border and margin to offset text
+    function outerWidth(el) {
+      var width = el.offsetWidth;
+      var style = getComputedStyle(el);
+
+      width += parseInt(style.marginLeft) + parseInt(style.marginRight);
+      return width;
+    }
+
     if (this.fieldLeftOffset === null) {
-      this.fieldLeftOffset = (this.$field.outerWidth(true) - this.$field.width()) / 2
+      this.fieldLeftOffset = (outerWidth(this.$field) - this.$field.offsetWidth) / 2
     }
 
     // find width of current input val so we can offset the suggestion text
-    const cvalWidth = this.$cval.width()
+    const cvalWidth = this.$cval.offsetWidth
 
-    if (this.$field.outerWidth() > cvalWidth) {
+    if (this.$field.offsetWidth > cvalWidth) {
       // offset our suggestion container
-      this.$suggOverlay.css('left', this.fieldLeftOffset + cvalWidth + 'px')
+      this.$suggOverlay.style.left = `${this.fieldLeftOffset + cvalWidth}px`
     }
   }
 }
-
-export default EmailAutocomplete

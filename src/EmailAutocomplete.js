@@ -19,14 +19,20 @@ function EmailAutocomplete (elem, options) {
   $wrap.appendChild(elem)
 
   // create container to test width of current val
-  this.$cval = $('<span class="eac-cval" />').css({
-    visibility: 'hidden',
-    position: 'absolute',
-    display: 'inline-block',
-    fontFamily: this.$field.css('fontFamily'),
-    fontWeight: this.$field.css('fontWeight'),
-    letterSpacing: this.$field.css('letterSpacing')
-  }).insertAfter(this.$field)
+  const $cval = document.createElement('span')
+  $cval.className = 'eac-cval'
+  const $wrapStyle = getComputedStyle(elem)
+
+  const $cvalStyles = `
+    visibility: hidden;
+    position: absolute;
+    display: inline-block
+    fontFamily: ${$cvalStyle.fontFamily}
+    fontWeight: ${$cvalStyle.fontWeight}`
+
+  $cval.style = styles
+
+  $cval.insertAfter(elem)
 
   // create the suggestion overlay
   /* touchstart jquery 1.7+ */

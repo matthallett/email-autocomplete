@@ -8,11 +8,15 @@ function EmailAutocomplete (elem, options) {
   this.fieldLeftOffset = null
 
   // wrap our field
-  var $wrap = $('<div class="eac-input-wrap" />').css({
-    position: this.$field.css('position') === 'static' ? 'relative' : this.$field.css('position'),
-    fontSize: this.$field.css('fontSize')
-  })
-  this.$field.wrap($wrap)
+  const $wrap = document.createElement('div')
+  $wrap.className = 'eac-input-wrap'
+
+  const $wrapStyle = getComputedStyle(elem)
+  $wrap.style.position = $wrapStyle.position === 'static' ? 'relative' : $wrapStyle.position
+  $wrap.style.fontSize = $wrapStyle.fontSize
+
+  elem.parentNode.insertBefore($wrap, elem)
+  $wrap.appendChild(elem)
 
   // create container to test width of current val
   this.$cval = $('<span class="eac-cval" />').css({
@@ -26,7 +30,7 @@ function EmailAutocomplete (elem, options) {
 
   // create the suggestion overlay
   /* touchstart jquery 1.7+ */
-  var heightPad = (this.$field.outerHeight(true) - this.$field.height()) / 2 // padding+border
+  const heightPad = (this.$field.outerHeight(true) - this.$field.height()) / 2 // padding+border
   this.$suggOverlay = $('<span class="' + this.options.suggClass + '" />').css({
     display: 'block',
     'box-sizing': 'content-box', // standardize
@@ -57,7 +61,7 @@ function EmailAutocomplete (elem, options) {
 
 EmailAutocomplete.prototype = {
   suggest: function (str) {
-    var strArr = str.split('@')
+    const strArr = str.split('@')
     if (strArr.length > 1) {
       str = strArr.pop()
       if (!str.length) {
@@ -67,7 +71,7 @@ EmailAutocomplete.prototype = {
       return ''
     }
 
-    var match = this.options.domains.filter(function (domain) {
+    const match = this.options.domains.filter(function (domain) {
       return domain.indexOf(str) === 0
     }).shift() || ''
 
@@ -107,7 +111,7 @@ EmailAutocomplete.prototype = {
     }
 
     // find width of current input val so we can offset the suggestion text
-    var cvalWidth = this.$cval.width()
+    const cvalWidth = this.$cval.width()
 
     if (this.$field.outerWidth() > cvalWidth) {
       // offset our suggestion container

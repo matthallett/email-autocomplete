@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <input type="email" placeholder="Enter email">
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+  <script src="dist/jquery.email-autocomplete.js"></script>
+  <script>
+  (function($){
+    $(function() {
+      $("input").emailautocomplete({
+        domains: ["example.com"] //add your own domains
+      });
+    });
+  }(jQuery));
+  </script>
+</body>
+</html>

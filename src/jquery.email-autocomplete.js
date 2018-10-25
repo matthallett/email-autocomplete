@@ -19,11 +19,6 @@
   EmailAutocomplete.prototype = {
     init: function () {
 
-      //shim indexOf
-      if (!Array.prototype.indexOf) {
-        this.doIndexOf();
-      }
-
       //this will be calculated upon keyup
       this.fieldLeftOffset = null;
 
@@ -133,43 +128,7 @@
         //offset our suggestion container
         this.$suggOverlay.css('left', this.fieldLeftOffset + cvalWidth + "px");
       }
-    },
-
-    /**
-     * indexof polyfill
-     * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf#Polyfill
-    */
-    doIndexOf: function(){
-
-        Array.prototype.indexOf = function (searchElement, fromIndex) {
-          if ( this === undefined || this === null ) {
-            throw new TypeError( '"this" is null or not defined' );
-          }
-
-          var length = this.length >>> 0; // Hack to convert object.length to a UInt32
-
-          fromIndex = +fromIndex || 0;
-
-          if (Math.abs(fromIndex) === Infinity) {
-            fromIndex = 0;
-          }
-
-          if (fromIndex < 0) {
-            fromIndex += length;
-            if (fromIndex < 0) {
-              fromIndex = 0;
-            }
-          }
-
-          for (;fromIndex < length; fromIndex++) {
-            if (this[fromIndex] === searchElement) {
-              return fromIndex;
-            }
-          }
-
-          return -1;
-        };
-      }
+    }
   };
 
   $.fn[pluginName] = function (options) {

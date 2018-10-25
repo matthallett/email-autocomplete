@@ -5,6 +5,7 @@ import commonjs from 'rollup-plugin-commonjs'
 
 export default {
   input: './src/index.js',
+  external: ['jquery'],
   output: {
     file: './dist/jquery.email-autocomplete.js',
     format: 'umd',

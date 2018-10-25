@@ -22,20 +22,17 @@
   "author": "Low Yong Zhen <yz@stargate.io>",
   "license": "MIT",
   "devDependencies": {
-    "grunt": "^1.0.1",
-    "grunt-browser-sync": "^2.2.0",
-    "grunt-cli": "^1.2.0",
-    "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-jshint": "^1.0.0",
-    "grunt-contrib-uglify": "^2.0.0",
-    "grunt-contrib-watch": "^1.0.0",
-    "load-grunt-tasks": "^3.5.2"
+    "@babel/preset-env": "^7.1.0",
+    "rollup": "^0.66.6",
+    "rollup-plugin-babel": "^4.0.3",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^3.4.0"
   },
   "dependencies": {
+    "@babel/core": "^7.1.2",
     "jquery": "*"
   },
   "scripts": {
-    "test": "grunt travis --verbose"
+    "build": "rollup -c"
   }
 }

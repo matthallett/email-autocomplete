@@ -24,13 +24,13 @@ const base = {
 export default [
   Object.assign({}, base, {
     output: [
-      { file: './dist/email-autocomplete.js', format: 'umd', exports: 'named', name },
-      { file: './dist/email-autocomplete.es.js', format: 'umd', exports: 'named', name }
+      { file: './dist/email-autocomplete.js', format: 'umd', name },
+      { file: './dist/email-autocomplete.es.js', format: 'es', name }
     ]
   }),
   Object.assign({}, base, {
     output: [
-      { file: './dist/email-autocomplete.min.js', format: 'umd', exports: 'named', name }
+      { file: './dist/email-autocomplete.min.js', format: 'umd', name }
     ],
     plugins: base.plugins.concat([
       uglify()

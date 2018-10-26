@@ -50,5 +50,8 @@
   "contributors": [
     "Loic Mahieu (https://github.com/loicmahieu)"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "files": [
+    "dist"
+  ]
 }

@@ -5,6 +5,8 @@ export default class EmailAutocomplete {
     this.$field = elem
     this.options = options
 
+    this.suggestion = ''
+
     // wrapper
     const $wrap = document.createElement('div')
     $wrap.className = 'eac-input-wrap'
@@ -92,6 +94,7 @@ export default class EmailAutocomplete {
     this.$field.dispatchEvent(new Event('change'))
     this.$suggestionOverlay.innerHTML = ''
     this.$currentVal.innerHTML = ''
+    this.suggestion = ''
   }
 
   /**

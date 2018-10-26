@@ -22,6 +22,8 @@
   "author": "Low Yong Zhen <yz@stargate.io>",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.7.0",
@@ -34,10 +36,6 @@
     "rollup-plugin-babel": "^4.0.3",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^3.4.0"
-  },
-  "dependencies": {
-    "@babel/core": "^7.1.2",
-    "jquery": "^3.3.1"
   },
   "scripts": {
     "build": "rollup -c",

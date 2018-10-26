@@ -5,10 +5,7 @@ export default class EmailAutocomplete {
     this.$field = elem
     this.options = options
 
-    // this will be calculated upon keyup
-    this.fieldLeftOffset = null
-
-    // wrap our field
+    // wrapper
     const $wrap = document.createElement('div')
     $wrap.className = 'eac-input-wrap'
 
@@ -19,11 +16,11 @@ export default class EmailAutocomplete {
     this.$field.parentNode.insertBefore($wrap, this.$field)
     $wrap.appendChild(this.$field)
 
-    // create container to test width of current val
-    this.$cval = document.createElement('span')
-    this.$cval.className = 'eac-cval'
+    // Current value container: used to calculate width of content and shift suggestion
+    this.$currentVal = document.createElement('span')
+    this.$currentVal.className = 'eac-currentVal'
 
-    const cvalStyles = `
+    const currentValStyles = `
       visibility: hidden;
       position: absolute;
       display: inline-block;
@@ -32,18 +29,17 @@ export default class EmailAutocomplete {
       letter-spacing: ${fieldStyle.letterSpacing};
     `
 
-    this.$cval.style = cvalStyles
+    this.$currentVal.style = currentValStyles
 
-    $wrap.appendChild(this.$cval)
+    $wrap.appendChild(this.$currentVal)
 
-    // create the suggestion overlay
-    /* touchstart jquery 1.7+ */
+    // Suggestion container
     const heightPad = parseInt(getComputedStyle(this.$field).borderWidth) + parseInt(getComputedStyle(this.$field).padding)
 
-    this.$suggOverlay = document.createElement('span')
-    this.$suggOverlay.className = this.options.suggClass
+    this.$suggestionOverlay = document.createElement('span')
+    this.$suggestionOverlay.className = this.options.suggClass
 
-    const suggOverlayStyles = `
+    const suggestionOverlayStyles = `
       display: block;
       box-sizing: content-box;
       line-height: ${fieldStyle.lineHeight};
@@ -57,8 +53,8 @@ export default class EmailAutocomplete {
       top: 0;
       left: 0;
     `
-    this.$suggOverlay.style = suggOverlayStyles
-    $wrap.appendChild(this.$suggOverlay)
+    this.$suggestionOverlay.style = suggestionOverlayStyles
+    $wrap.appendChild(this.$suggestionOverlay)
 
     // bind events and handlers
     this.$field.addEventListener('keyup', this.displaySuggestion)
@@ -73,25 +69,18 @@ export default class EmailAutocomplete {
     this.$field.addEventListener('keydown.eac', checkKey)
 
     // trouver une solution pour touchstart
-    this.$suggOverlay.addEventListener('mousedown.eac touchstart.eac', this.autocomplete)
+    this.$suggestionOverlay.addEventListener('mousedown.eac touchstart.eac', this.autocomplete)
   }
 
   suggest = (str) => {
     const strArr = str.split('@')
-    if (strArr.length > 1) {
-      str = strArr.pop()
-      if (!str.length) {
-        return ''
-      }
-    } else {
-      return ''
-    }
+    const domainHint = strArr.length > 1 && strArr[1] !== '' ? strArr[1] : undefined
 
     const match = this.options.domains.filter(function (domain) {
-      return domain.indexOf(str) === 0
+      return domain.indexOf(domainHint) === 0
     }).shift() || ''
 
-    return match.replace(str, '')
+    return match.replace(domainHint, '')
   }
 
   autocomplete = () => {
@@ -101,27 +90,26 @@ export default class EmailAutocomplete {
 
     this.$field.value = (this.$field.value + this.suggestion)
     this.$field.dispatchEvent(new Event('change'))
-    this.$suggOverlay.innerHTML = ''
-    this.$cval.innerHTML = ''
+    this.$suggestionOverlay.innerHTML = ''
+    this.$currentVal.innerHTML = ''
   }
 
   /**
    * Displays the suggestion, handler for field keyup event
    */
   displaySuggestion = e => {
-    console.log('display suggestion')
     this.val = this.$field.value
     this.suggestion = this.suggest(this.val)
 
     if (!this.suggestion.length) {
-      this.$suggOverlay.innerHTML = ''
+      this.$suggestionOverlay.innerHTML = ''
     } else {
       e.preventDefault()
     }
 
     // update with new suggestion
-    this.$suggOverlay.innerHTML = this.suggestion
-    this.$cval.innerHTML = this.val
+    this.$suggestionOverlay.innerHTML = this.suggestion
+    this.$currentVal.innerHTML = this.val
 
     //  get input padding, border and margin to offset text
     function outerWidth (el) {
@@ -132,16 +120,14 @@ export default class EmailAutocomplete {
       return width
     }
 
-    if (this.fieldLeftOffset === null) {
-      this.fieldLeftOffset = (outerWidth(this.$field) - this.$field.offsetWidth) / 2
-    }
+    const fieldLeftOffset = (outerWidth(this.$field) - this.$field.offsetWidth) / 2
 
     // find width of current input val so we can offset the suggestion text
-    const cvalWidth = this.$cval.offsetWidth
+    const currentValWidth = this.$currentVal.offsetWidth
 
-    if (this.$field.offsetWidth > cvalWidth) {
+    if (this.$field.offsetWidth > currentValWidth) {
       // offset our suggestion container
-      this.$suggOverlay.style.left = `${this.fieldLeftOffset + cvalWidth}px`
+      this.$suggestionOverlay.style.left = `${fieldLeftOffset + currentValWidth}px`
     }
   }
 }

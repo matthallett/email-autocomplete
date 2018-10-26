@@ -19,7 +19,7 @@
   "scripts": {
     "build": "rollup -c",
     "prepare": "npm run build",
-    "test": "npm run lint",
+    "test": "npm run lint && npm run build",
     "lint": "eslint --ignore-path .gitignore ."
   },
   "devDependencies": {

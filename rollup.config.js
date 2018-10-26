@@ -30,7 +30,7 @@ export default [
   }),
   Object.assign({}, base, {
     output: [
-      { file: './dist/email-autocomplete.min.js', format: 'umd', exports: 'named', name },
+      { file: './dist/email-autocomplete.min.js', format: 'umd', exports: 'named', name }
     ],
     plugins: base.plugins.concat([
       uglify()

@@ -22,8 +22,9 @@ npm install js-email-autocomplete
 
 ## Usage
 
-`emailautocomplete({domains<String[]>, suggClass<String>})`
+`emailautocomplete(element<Dom Node>, {domains<String[]>, suggClass<String>})`
 
+`element`: Dom input field on wich apply autocompletion.
 `domains` : Array de string specifying specific domain that will be added on top of the default list. (default)
 `suggClass` : classname used to style the domain suggestion (default: `eac-sugg`)
 
@@ -32,6 +33,8 @@ npm install js-email-autocomplete
 ```
 
 ```js
+import emailautocomplete from 'js-email-autocomplete'
+
 const elem = document.getElementById('targetField')
 emailautocomplete(elem, {
   domains: ["example.com"], //add your own specific domains to top of default list

@@ -1,10 +1,11 @@
 {
-  "name": "jq-email-autocomplete",
+  "name": "js-email-autocomplete",
   "version": "1.0.0",
-  "description": "jQuery plugin that displays in-place autocomplete suggestions for email input fields.",
+  "description": "Npm package that propose autocomplete suggestions for email input fields.",
   "keywords": [
-    "jquery-plugin",
-    "ecosystem:jquery",
+    "vanilla",
+    "js",
+    "javascript",
     "autocomplete",
     "suggestion",
     "typeahead",
@@ -12,15 +13,15 @@
     "email",
     "form"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/10w042/email-autocomplete.git"
+  "main": "lib/index.js",
+  "jsnext:main": "dist/email-autocomplete.es.js",
+  "module": "dist/email-autocomplete.es.js",
+  "scripts": {
+    "build": "rollup -c",
+    "prepare": "npm run build",
+    "test": "npm run lint",
+    "lint": "eslint --ignore-path .gitignore ."
   },
-  "bugs": {
-    "url": "https://github.com/10w042/email-autocomplete/issues"
-  },
-  "author": "Low Yong Zhen <yz@stargate.io>",
-  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.1.2",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
@@ -35,11 +36,19 @@
     "rollup": "^0.66.6",
     "rollup-plugin-babel": "^4.0.3",
     "rollup-plugin-commonjs": "^9.2.0",
-    "rollup-plugin-node-resolve": "^3.4.0"
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-uglify": "^6.0.0"
   },
-  "scripts": {
-    "build": "rollup -c",
-    "test": "npm run lint",
-    "lint": "eslint --ignore-path .gitignore ."
-  }
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NicoleEtLui/email-autocomplete"
+  },
+  "bugs": {
+    "url": "https://github.com/NicoleEtLui/email-autocomplete/issues"
+  },
+  "author": "Martin Petit <martin@igloo.be> (https://github.com/NicoleEtLui)",
+  "contributors": [
+    "Loic Mahieu (https://github.com/loicmahieu)"
+  ],
+  "license": "MIT"
 }

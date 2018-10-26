@@ -1,4 +1,3 @@
-'use strict'
 
 export default class EmailAutocomplete {
   constructor (elem, options) {
@@ -59,23 +58,19 @@ export default class EmailAutocomplete {
 
     // bind events and handlers
     this.$field.addEventListener('keyup', this.displaySuggestion)
-
     this.$field.addEventListener('blur', this.autocomplete)
-
-    const checkKey = function (e) {
+    this.$field.addEventListener('keydown.eac', e => {
       if (e.key === 39 || e.key === 9) {
         this.autocomplete()
       }
-    }
-    this.$field.addEventListener('keydown.eac', checkKey)
+    })
 
     // trouver une solution pour touchstart
     this.$suggestionOverlay.addEventListener('mousedown.eac touchstart.eac', this.autocomplete)
   }
 
   suggest = (str) => {
-    const strArr = str.split('@')
-    const domainHint = strArr.length > 1 && strArr[1] !== '' ? strArr[1] : undefined
+    const [, domainHint] = str.split('@')
 
     const match = this.options.domains.filter(function (domain) {
       return domain.indexOf(domainHint) === 0
@@ -100,15 +95,17 @@ export default class EmailAutocomplete {
    * Displays the suggestion, handler for field keyup event
    */
   displaySuggestion = e => {
-    this.val = this.$field.value
-    this.suggestion = this.suggest(this.val)
+    e.preventDefault()
+
+    const val = this.$field.value
+
+    this.suggestion = this.suggest(val)
 
     this.$suggestionOverlay.innerHTML = ''
-    e.preventDefault()
 
     // update with new suggestion
     this.$suggestionOverlay.innerHTML = this.suggestion
-    this.$currentVal.innerHTML = this.val
+    this.$currentVal.innerHTML = val
 
     // add padding, border, margin to have the offset of the text in the input field
     const fieldLeftOffset = parseInt(this.fieldStyle.borderWidth) + parseInt(this.fieldStyle.paddingLeft) + parseInt(this.fieldStyle.marginLeft)

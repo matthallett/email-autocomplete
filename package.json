@@ -13,7 +13,7 @@
     "email",
     "form"
   ],
-  "main": "lib/index.js",
+  "main": "dist/email-autocomplete.js",
   "jsnext:main": "dist/email-autocomplete.es.js",
   "module": "dist/email-autocomplete.es.js",
   "scripts": {

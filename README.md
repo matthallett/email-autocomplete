@@ -1,10 +1,6 @@
-# jquery.email-autocomplete.js
+# js-email-autocomplete
 
-> A jQuery plugin that suggests and autocompletes the domain whenever your users type in an email address field.
-
-[![Build Status](https://travis-ci.org/10w042/email-autocomplete.svg?branch=master)](https://travis-ci.org/10w042/email-autocomplete)
-[![CDNJS version](https://img.shields.io/cdnjs/v/email-autocomplete.svg)](https://cdnjs.com/libraries/email-autocomplete)
-
+> NPM package that suggests and autocompletes the domain whenever your users type in an email address field.
 
 ## What does it do?
 
@@ -16,66 +12,36 @@ Press the tab-key, or simply click on the suggestion to automatically fill in th
 
 You can also use the right arrow key.
 
-See a live demo [here](http://10w042.github.io/email-autocomplete/demo/).
-
 ## Installation
 
-**Bower**
+**Download**
 
-```sh
-bower install email-autocomplete --save
 ```
-
-**Download** 
-
-Download or clone this repo and copy `dist/jquery.email-autocomplete.min.js` into your javascripts directory.
+npm install js-email-autocomplete
+```
 
 ## Usage (jQuery)
 
-Add `jquery.email-autocomplete.min.js` into your HTML, before the closing `</body>` tag.
+`emailautocomplete({domains<String[]>, suggClass<String>})`
+
+`domains` : Array de string specifying specific domain that will be added on top of the default list. (default)
+`suggClass` : classname used to style the domain suggestion (default: `eac-sugg`)
 
 ```html
-<script src="jquery.min.js"></script>
-<script src="jquery.email-autocomplete.min.js"></script>
+<input id="targetField" type="email" placeholder="Enter email">
 ```
 
-You should also have a email input field.
-
-```html
-<input id="email" name="email" type="email" />
-```
-
-Now, attach the plugin to the email input field.
-
-```html
-<script>
-$("#email").emailautocomplete({
-  suggClass: "custom-classname",
-  domains: ["example.com"]
+```js
+const elem = document.getElementById('targetField')
+emailautocomplete(elem, {
+  domains: ["example.com"], //add your own specific domains to top of default list
+  suggClass: 'eac-suggestion' //add your own class
 });
-</script>
-```
-
-## Settings
-
-Option | Type | Default | Description
------- | ---- | ------- | -----------
-suggClass|string|'eac-sugg'|Classname for the suggestion text element.
-domains|array|See list of domains below|Array of domains used for autocompleting.
-
-## Styling
-
-Use the following CSS to style the suggestion text color. Remember to update the classname if you've changed it to a custom one.
-
-```css
-.eac-sugg {
-  color: #ccc;
-}
 ```
 
 ## Domains
 
-These are the plugin default domains if the `domains` option is not supplied.
+These are the plugin default domains.
 
 * gmail.com
 * googlemail.com
@@ -99,7 +65,7 @@ These are the plugin default domains if the `domains` option is not supplied.
 
 ## Author
 
-- Low Yong Zhen
+- Martin Petit
 
 
 ## Known Issues

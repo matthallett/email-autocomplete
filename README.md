@@ -20,7 +20,7 @@ You can also use the right arrow key.
 npm install js-email-autocomplete
 ```
 
-## Usage (jQuery)
+## Usage
 
 `emailautocomplete({domains<String[]>, suggClass<String>})`
 

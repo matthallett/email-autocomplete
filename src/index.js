@@ -28,7 +28,7 @@ const defaults = {
 
 export default function emailautocomplete (elem, options) {
   return new EmailAutocomplete(elem, {
-    ...options,
-    ...defaults
+    domains: [...options.domains, ...defaults.domains],
+    suggClass: options.suggClass ? options.suggClass : defaults.suggClass
   })
 }

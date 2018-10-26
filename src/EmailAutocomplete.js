@@ -6,14 +6,14 @@ export default class EmailAutocomplete {
     this.options = options
 
     this.suggestion = ''
+    this.fieldStyle = getComputedStyle(this.$field)
 
     // wrapper
     const $wrap = document.createElement('div')
     $wrap.className = 'eac-input-wrap'
 
-    const fieldStyle = getComputedStyle(this.$field)
-    $wrap.style.position = fieldStyle.position === 'static' ? 'relative' : fieldStyle.position
-    $wrap.style.fontSize = fieldStyle.fontSize
+    $wrap.style.position = this.fieldStyle.position === 'static' ? 'relative' : this.fieldStyle.position
+    $wrap.style.fontSize = this.fieldStyle.fontSize
 
     this.$field.parentNode.insertBefore($wrap, this.$field)
     $wrap.appendChild(this.$field)
@@ -26,9 +26,9 @@ export default class EmailAutocomplete {
       visibility: hidden;
       position: absolute;
       display: inline-block;
-      font-family: ${fieldStyle.fontFamily};
-      font-weight: ${fieldStyle.fontWeight};
-      letter-spacing: ${fieldStyle.letterSpacing};
+      font-family: ${this.fieldStyle.fontFamily};
+      font-weight: ${this.fieldStyle.fontWeight};
+      letter-spacing: ${this.fieldStyle.letterSpacing};
     `
 
     this.$currentVal.style = currentValStyles
@@ -36,7 +36,7 @@ export default class EmailAutocomplete {
     $wrap.appendChild(this.$currentVal)
 
     // Suggestion container
-    const heightPad = parseInt(getComputedStyle(this.$field).borderWidth) + parseInt(getComputedStyle(this.$field).padding)
+    const heightPad = parseInt(this.fieldStyle.borderWidth) + parseInt(this.fieldStyle.padding)
 
     this.$suggestionOverlay = document.createElement('span')
     this.$suggestionOverlay.className = this.options.suggClass
@@ -44,13 +44,12 @@ export default class EmailAutocomplete {
     const suggestionOverlayStyles = `
       display: block;
       box-sizing: content-box;
-      line-height: ${fieldStyle.lineHeight};
+      line-height: ${this.fieldStyle.lineHeight};
       padding-top: ${heightPad}px;
       padding-bottom: ${heightPad}px;
-      padding-left: ${heightPad}px;
-      font-family: ${fieldStyle.fontFamily};
-      font-weight: ${fieldStyle.fontWeight};
-      letter-spacing: ${fieldStyle.letterSpacing};
+      font-family: ${this.fieldStyle.fontFamily};
+      font-weight: ${this.fieldStyle.fontWeight};
+      letter-spacing: ${this.fieldStyle.letterSpacing};
       position: absolute;
       top: 0;
       left: 0;
@@ -104,26 +103,15 @@ export default class EmailAutocomplete {
     this.val = this.$field.value
     this.suggestion = this.suggest(this.val)
 
-    if (!this.suggestion.length) {
-      this.$suggestionOverlay.innerHTML = ''
-    } else {
-      e.preventDefault()
-    }
+    this.$suggestionOverlay.innerHTML = ''
+    e.preventDefault()
 
     // update with new suggestion
     this.$suggestionOverlay.innerHTML = this.suggestion
     this.$currentVal.innerHTML = this.val
 
-    //  get input padding, border and margin to offset text
-    function outerWidth (el) {
-      var width = el.offsetWidth
-      var style = getComputedStyle(el)
-
-      width += parseInt(style.marginLeft) + parseInt(style.marginRight);
-      return width
-    }
-
-    const fieldLeftOffset = (outerWidth(this.$field) - this.$field.offsetWidth) / 2
+    // add padding, border, margin to have the offset of the text in the input field
+    const fieldLeftOffset = parseInt(this.fieldStyle.borderWidth) + parseInt(this.fieldStyle.paddingLeft) + parseInt(this.fieldStyle.marginLeft)
 
     // find width of current input val so we can offset the suggestion text
     const currentValWidth = this.$currentVal.offsetWidth

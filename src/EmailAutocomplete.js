@@ -1,7 +1,7 @@
 'use strict'
 
 export default class EmailAutocomplete {
-  constructor(elem, options) {
+  constructor (elem, options) {
     this.$field = elem
     this.options = options
 
@@ -46,15 +46,16 @@ export default class EmailAutocomplete {
     const suggOverlayStyles = `
       display: block;
       box-sizing: content-box;
-      lineHeight: ${fieldStyle.lineHeight},
-      paddingTop: ${heightPad} + 'px',
-      paddingBottom: ${heightPad} + 'px',
-      fontFamily: ${fieldStyle.fontFamily},
-      fontWeight: ${fieldStyle.fontWeight},
-      letterSpacing: ${fieldStyle.letterSpacing},
-      position: 'absolute',
-      top: 0,
-      left: 0
+      line-height: ${fieldStyle.lineHeight};
+      padding-top: ${heightPad}px;
+      padding-bottom: ${heightPad}px;
+      padding-left: ${heightPad}px;
+      font-family: ${fieldStyle.fontFamily};
+      font-weight: ${fieldStyle.fontWeight};
+      letter-spacing: ${fieldStyle.letterSpacing};
+      position: absolute;
+      top: 0;
+      left: 0;
     `
     this.$suggOverlay.style = suggOverlayStyles
     $wrap.appendChild(this.$suggOverlay)
@@ -75,8 +76,7 @@ export default class EmailAutocomplete {
     this.$suggOverlay.addEventListener('mousedown.eac touchstart.eac', this.autocomplete)
   }
 
-
-  suggest =  (str) => {
+  suggest = (str) => {
     const strArr = str.split('@')
     if (strArr.length > 1) {
       str = strArr.pop()
@@ -95,14 +95,14 @@ export default class EmailAutocomplete {
   }
 
   autocomplete = () => {
-    console.log("yaaaaaaaaah")
     if (typeof this.suggestion === 'undefined' || this.suggestion.length < 1) {
       return false
     }
-    this.$field.val(this.val + this.suggestion)
-    this.$field.trigger('change')
+
+    this.$field.value = (this.$field.value + this.suggestion)
+    this.$field.dispatchEvent(new Event('change'))
     this.$suggOverlay.innerHTML = ''
-    this.$cval.innerText
+    this.$cval.innerHTML = ''
   }
 
   /**
@@ -124,12 +124,12 @@ export default class EmailAutocomplete {
     this.$cval.innerHTML = this.val
 
     //  get input padding, border and margin to offset text
-    function outerWidth(el) {
-      var width = el.offsetWidth;
-      var style = getComputedStyle(el);
+    function outerWidth (el) {
+      var width = el.offsetWidth
+      var style = getComputedStyle(el)
 
       width += parseInt(style.marginLeft) + parseInt(style.marginRight);
-      return width;
+      return width
     }
 
     if (this.fieldLeftOffset === null) {

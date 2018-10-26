@@ -1,9 +1,7 @@
 
-import $ from 'jquery'
 import EmailAutocomplete from './EmailAutocomplete'
 
-var pluginName = 'emailautocomplete'
-var defaults = {
+const defaults = {
   suggClass: 'eac-sugg',
   domains: [
     'yahoo.com',
@@ -28,15 +26,9 @@ var defaults = {
   ]
 }
 
-$.fn[pluginName] = function (options) {
-  return this.each(function () {
-    if (!$.data(this, pluginName)) {
-      $.data(this, pluginName, new EmailAutocomplete(this, {
-        ...options,
-        ...defaults
-      }))
-    }
+export default function emailautocomplete (elem, options) {
+  return new EmailAutocomplete(elem, {
+    ...options,
+    ...defaults
   })
 }
-
-export default $

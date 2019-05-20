@@ -35,7 +35,7 @@ export default class EmailAutocomplete {
     $wrap.appendChild(this.$currentVal)
 
     // Suggestion container
-    const heightPad = parseInt(this.fieldStyle.borderWidth) + parseInt(this.fieldStyle.padding)
+    const heightPad = parseInt(this.fieldStyle.borderTopWidth) + parseInt(this.fieldStyle.paddingTop)
 
     this.$suggestionOverlay = document.createElement('span')
     this.$suggestionOverlay.className = this.options.suggClass
@@ -108,7 +108,7 @@ export default class EmailAutocomplete {
     this.$currentVal.innerHTML = val
 
     // add padding, border, margin to have the offset of the text in the input field
-    const fieldLeftOffset = parseInt(this.fieldStyle.borderWidth) + parseInt(this.fieldStyle.paddingLeft) + parseInt(this.fieldStyle.marginLeft)
+    const fieldLeftOffset = parseInt(this.fieldStyle.borderLeftWidth) + parseInt(this.fieldStyle.paddingLeft) + parseInt(this.fieldStyle.marginLeft)
 
     // find width of current input val so we can offset the suggestion text
     const currentValWidth = this.$currentVal.offsetWidth

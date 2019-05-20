@@ -1,5 +1,5 @@
 {
-  "name": "js-email-autocomplete",
+  "name": "js-email-autocomplete-mh",
   "version": "1.0.3",
   "description": "Npm package that propose autocomplete suggestions for email input fields.",
   "keywords": [
@@ -41,13 +41,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/NicoleEtLui/email-autocomplete"
+    "url": "https://github.com/matthallett/email-autocomplete"
   },
   "bugs": {
-    "url": "https://github.com/NicoleEtLui/email-autocomplete/issues"
+    "url": "https://github.com/matthallett/email-autocomplete/issues"
   },
   "author": "Martin Petit <martin@igloo.be> (https://github.com/NicoleEtLui)",
   "contributors": [
+    "Matt Hallett",
     "Loic Mahieu (https://github.com/loicmahieu)"
   ],
   "license": "MIT",

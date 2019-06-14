@@ -1,6 +1,6 @@
 {
   "name": "js-email-autocomplete-mh",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Npm package that propose autocomplete suggestions for email input fields.",
   "keywords": [
     "vanilla",

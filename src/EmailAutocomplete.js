@@ -22,12 +22,12 @@ export default class EmailAutocomplete {
     this.$currentVal.className = 'eac-currentVal'
 
     const currentValStyles =
-      "visibility:hidden;"+
-      "position:absolute;"+
-      "display:inline-block;"+
-      "font-family:${this.fieldStyle.fontFamily};"+
-      "font-weight:${this.fieldStyle.fontWeight};"+
-      "letter-spacing:${this.fieldStyle.letterSpacing};"
+      `visibility:hidden;`+
+      `position:absolute;`+
+      `display:inline-block;`+
+      `font-family:${this.fieldStyle.fontFamily};`+
+      `font-weight:${this.fieldStyle.fontWeight};`+
+      `letter-spacing:${this.fieldStyle.letterSpacing};`
 
     this.$currentVal.style = currentValStyles
 
@@ -40,17 +40,17 @@ export default class EmailAutocomplete {
     this.$suggestionOverlay.className = this.options.suggClass
 
     const suggestionOverlayStyles =
-      "display:block;"+
-      "box-sizing:content-box;"+
-      "line-height:${this.fieldStyle.lineHeight};"+
-      "padding-top:${heightPad}px;"+
-      "padding-bottom:${heightPad}px;"+
-      "font-family:${this.fieldStyle.fontFamily};"+
-      "font-weight:${this.fieldStyle.fontWeight};"+
-      "letter-spacing:${this.fieldStyle.letterSpacing};"+
-      "position:absolute;"+
-      "top:0;"+
-      "left:0;"
+      `display:block;`+
+      `box-sizing:content-box;`+
+      `line-height:${this.fieldStyle.lineHeight};`+
+      `padding-top:${heightPad}px;`+
+      `padding-bottom:${heightPad}px;`+
+      `font-family:${this.fieldStyle.fontFamily};`+
+      `font-weight:${this.fieldStyle.fontWeight};`+
+      `letter-spacing:${this.fieldStyle.letterSpacing};`+
+      `position:absolute;`+
+      `top:0;`+
+      `left:0;`
     
     this.$suggestionOverlay.style = suggestionOverlayStyles
     $wrap.appendChild(this.$suggestionOverlay)
